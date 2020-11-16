@@ -22,6 +22,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -34,4 +39,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.8.1'
+    //GSON
+    implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
+
+    //HttpLogginInterceptor
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 }
