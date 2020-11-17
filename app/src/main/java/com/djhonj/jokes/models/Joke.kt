@@ -1,3 +1,3 @@
 package com.djhonj.jokes.models
 
-data class Joke(var id: Int, var type: String, var setup: String, var punchline: String)
+data class Joke(var id: Int? = null, var type: String? = null, var setup: String? = null, var punchline: String? = null)

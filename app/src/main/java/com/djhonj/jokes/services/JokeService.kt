@@ -5,6 +5,6 @@ import com.djhonj.jokes.models.Joke
 import retrofit2.Call
 
 interface JokeService {
-    @GET("random/jokes")
+    @GET("random/jokes") //type/programming
     fun getJokeRandom(): Call<Joke>
 }
