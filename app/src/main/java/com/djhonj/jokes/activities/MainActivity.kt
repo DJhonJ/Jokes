@@ -19,23 +19,54 @@ import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
+    private var jokeSaveInstance: List<Joke>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        loadJokeRandom()
+        val jokes = savedInstanceState?.getSerializable("jokeInstance")
+
+        if (jokes == null) {
+            loadJokeRandom()
+        }
 
         buttonBuscar.setOnClickListener {
             loadJokeRandom()
         }
 
         buttonTraducir.setOnClickListener {
-            val setup: String = textViewSetup.text.toString().split("-")[0]
-            val punchline: String = textViewPunchLine.text.toString().split("-")[0]
+            val setup: String = textViewSetup.text.toString().split("-")[1]
+            val punchline: String = textViewPunchLine.text.toString().split("-")[1]
 
             traducir(Translate(listOf(setup,  punchline), "en-es"))
+        }
+    }
+
+    //guardamos el valor en la saveinstance
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        if (jokeSaveInstance != null) {
+            outState.putSerializable("jokeInstance", jokeSaveInstance as Serializable)
+        }
+    }
+
+    //obtenemos el valor
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        if (savedInstanceState.getSerializable("jokeInstance") != null) {
+            val jokes: List<Joke>? =
+                savedInstanceState.getSerializable("jokeInstance") as List<Joke>
+            jokes?.get(0)?.let {
+                textViewSetup.text = "- ${it.setup}"
+                textViewPunchLine.text = "- ${it.punchline}"
+
+                jokeSaveInstance = jokes
+            }
         }
     }
 
@@ -57,6 +88,8 @@ class MainActivity : AppCompatActivity() {
                         textViewSetup.text = "- ${it.setup}"
                         textViewPunchLine.text = "- ${it.punchline}"
                         tv_type.text = "type: ${it.type}"
+
+                        jokeSaveInstance = listOf(it)
                     }
                 }
             }
@@ -84,8 +117,8 @@ class MainActivity : AppCompatActivity() {
                         //joke?.setup = setup
                         //joke?.punchline = punch
 
-                        tv_setup_spanish.text = "${setup}"
-                        tv_punchline_spanish.text = "${punch}"
+                        tv_setup_spanish.text = "-${setup}"
+                        tv_punchline_spanish.text = "-${punch}"
 
                         linear_layout_traduccion.visibility = View.VISIBLE
                     }
