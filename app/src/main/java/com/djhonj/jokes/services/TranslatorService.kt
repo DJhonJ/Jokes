@@ -2,7 +2,7 @@ package com.djhonj.jokes.services
 
 import com.djhonj.jokes.models.Translate
 import retrofit2.Call
-import com.djhonj.jokes.models.Translation
+//import com.djhonj.jokes.models.Translation
 import com.djhonj.jokes.models.Translations
 import retrofit2.http.Body
 import retrofit2.http.Headers

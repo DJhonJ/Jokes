@@ -1,16 +1,13 @@
 package com.djhonj.jokes.activities
 
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import com.djhonj.jokes.BuildConfig
 import com.djhonj.jokes.R
 import com.djhonj.jokes.models.Joke
 import com.djhonj.jokes.models.Translate
-import com.djhonj.jokes.models.Translation
 import com.djhonj.jokes.models.Translations
 import com.djhonj.jokes.services.JokeService
 import com.djhonj.jokes.services.ServiceBuilder
@@ -31,16 +28,20 @@ class MainActivity : AppCompatActivity() {
         val jokes = savedInstanceState?.getSerializable("jokeInstance")
 
         if (jokes == null) {
+            progressBar.visibility = View.VISIBLE
             loadJokeRandom()
         }
 
         buttonBuscar.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
             loadJokeRandom()
         }
 
         buttonTraducir.setOnClickListener {
             val setup: String = textViewSetup.text.toString().split("-")[1]
             val punchline: String = textViewPunchLine.text.toString().split("-")[1]
+
+            progressBar.visibility = View.VISIBLE
 
             traducir(Translate(listOf(setup,  punchline), "en-es"))
         }
@@ -59,13 +60,12 @@ class MainActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         if (savedInstanceState.getSerializable("jokeInstance") != null) {
-            val jokes: List<Joke>? =
-                savedInstanceState.getSerializable("jokeInstance") as List<Joke>
+            val jokes: List<Joke>? = savedInstanceState.getSerializable("jokeInstance") as List<Joke>
             jokes?.get(0)?.let {
                 textViewSetup.text = "- ${it.setup}"
                 textViewPunchLine.text = "- ${it.punchline}"
 
-                jokeSaveInstance = jokes
+                jokeSaveInstance = listOf(it)
             }
         }
     }
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
         requestGet.enqueue(object: Callback<Joke> {
             override fun onFailure(call: Call<Joke>, t: Throwable) {
-                Toast.makeText(this@MainActivity, "Problemas en la peticion", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Problemas en la peticion onFailure", Toast.LENGTH_SHORT).show()
             }
 
             override fun onResponse(call: Call<Joke>, response: Response<Joke>) {
@@ -85,6 +85,8 @@ class MainActivity : AppCompatActivity() {
 
                     val joke: Joke? = response.body()
                     joke?.let {
+                        progressBar.visibility = View.INVISIBLE
+
                         textViewSetup.text = "- ${it.setup}"
                         textViewPunchLine.text = "- ${it.punchline}"
                         tv_type.text = "type: ${it.type}"
@@ -121,6 +123,7 @@ class MainActivity : AppCompatActivity() {
                         tv_punchline_spanish.text = "-${punch}"
 
                         linear_layout_traduccion.visibility = View.VISIBLE
+                        progressBar.visibility = View.GONE
                     }
                 } else {
                     Toast.makeText(this@MainActivity, "Problemas al traducir", Toast.LENGTH_SHORT).show()
