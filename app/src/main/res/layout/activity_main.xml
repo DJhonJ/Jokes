@@ -5,46 +5,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="@dimen/espaciado_10_dp"
     tools:context=".activities.MainActivity">
 
     <LinearLayout
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="30dp">
+        android:padding="@dimen/espaciado_30_dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textViewSetup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="- Why can't a bicycle stand on its own?"
-            android:textSize="32sp" />
+            android:textSize="@dimen/text_size_32sp" />
 
         <TextView
             android:id="@+id/textViewPunchLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="- It's two-tired."
-            android:textSize="32sp"/>
+            android:textSize="@dimen/text_size_32sp" />
 
         <TextView
             android:id="@+id/tv_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="type: generic"
-            android:textSize="16sp" />
+            android:textSize="@dimen/text_size_16sp" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_traduccion"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/espaciado_20_dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_setup_spanish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="- type: generic"
+                android:textSize="@dimen/text_size_32sp" />
+
+            <TextView
+                android:id="@+id/tv_punchline_spanish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="- type: generic"
+                android:textSize="@dimen/text_size_32sp" />
+
+        </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonBuscar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_buscar_main"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/buttonBuscar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_buscar_main" />
+
+        <Button
+            android:id="@+id/buttonTraducir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_traducir_main" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

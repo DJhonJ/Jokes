@@ -1,8 +1,11 @@
 package com.djhonj.jokes.activities
 
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.djhonj.jokes.BuildConfig
 import com.djhonj.jokes.R
 import com.djhonj.jokes.models.Joke
@@ -25,12 +28,15 @@ class MainActivity : AppCompatActivity() {
         loadJokeRandom()
 
         buttonBuscar.setOnClickListener {
-            Toast.makeText(this, "Start", Toast.LENGTH_SHORT).show()
             loadJokeRandom()
-            Toast.makeText(this, "End", Toast.LENGTH_SHORT).show()
         }
 
-        //traduccir(Translate(listOf("Hola", "Chao"), "en-es"))
+        buttonTraducir.setOnClickListener {
+            val setup: String = textViewSetup.text.toString().split("-")[0]
+            val punchline: String = textViewPunchLine.text.toString().split("-")[0]
+
+            traducir(Translate(listOf(setup,  punchline), "en-es"))
+        }
     }
 
     private fun loadJokeRandom() {
@@ -44,24 +50,21 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<Joke>, response: Response<Joke>) {
                 if (response.isSuccessful) {
+                    linear_layout_traduccion.visibility = View.INVISIBLE
+
                     val joke: Joke? = response.body()
                     joke?.let {
-                        //textViewSetup.text = "- ${it.setup}"
-                        //textViewPunchLine.text = "- ${it.punchline}"
+                        textViewSetup.text = "- ${it.setup}"
+                        textViewPunchLine.text = "- ${it.punchline}"
                         tv_type.text = "type: ${it.type}"
-
-                        traduccir(Translate(listOf(it.setup.toString(), it.punchline.toString()), "en-es"))
-                        //textViewSetup.text = "- ${jokeSpanish?.setup}"
-                        //textViewPunchLine.text = "- ${jokeSpanish?.punchline}"
                     }
                 }
             }
         })
     }
 
-    private fun traduccir(translate: Translate): Joke? {
+    private fun traducir(translate: Translate): Joke? {
         val serviceBuilder = ServiceBuilder.changeUrlBase(BuildConfig.API_JOKES_URL, BuildConfig.API_TRANSLATOR_URL)
-
         val translatorService: TranslatorService = serviceBuilder.buildService(TranslatorService::class.java, BuildConfig.API_TRANSLATOR_USERNAME, BuildConfig.API_TRANSLATOR_PASSWORD)
         val request: Call<Translations> = translatorService.translator(translate)
         val joke: Joke? = null
@@ -75,14 +78,16 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val translation: Translations? = response.body()
                     translation?.let {
-                        var uno = it.translations.get(0).get("translation").toString()
-                        var dos = it.translations.get(1).get("translation").toString()
+                        var setup = it.translations.get(0).get("translation").toString()
+                        var punch = it.translations.get(1).get("translation").toString()
 
-                        joke?.setup = uno
-                        joke?.punchline = dos
+                        //joke?.setup = setup
+                        //joke?.punchline = punch
 
-                        textViewSetup.text = "- ${uno}"
-                        textViewPunchLine.text = "- ${dos}"
+                        tv_setup_spanish.text = "${setup}"
+                        tv_punchline_spanish.text = "${punch}"
+
+                        linear_layout_traduccion.visibility = View.VISIBLE
                     }
                 } else {
                     Toast.makeText(this@MainActivity, "Problemas al traducir", Toast.LENGTH_SHORT).show()

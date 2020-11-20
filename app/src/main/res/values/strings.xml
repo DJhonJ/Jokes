@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Jokes</string>
     <string name="button_buscar_main">Buscar</string>
+    <string name="button_traducir_main">Traducir</string>
 </resources>

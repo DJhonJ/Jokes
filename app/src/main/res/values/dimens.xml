@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="espaciado_10_dp">10dp</dimen>
+    <dimen name="espaciado_20_dp">20dp</dimen>
+    <dimen name="espaciado_30_dp">30dp</dimen>
+
+    <dimen name="text_size_32sp">32sp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
+</resources>

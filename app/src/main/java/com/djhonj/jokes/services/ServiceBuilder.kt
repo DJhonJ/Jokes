@@ -25,6 +25,9 @@ object ServiceBuilder {
 
     private var retrofit: Retrofit = builder.build()
 
+    //TODO de que manera puedo cambiar la url base para hacer distintas peticiones a apis
+
+
     fun <T> buildService(serviceType: Class<T>): T {
         val okHttpClient2: OkHttpClient.Builder = OkHttpClient.Builder().addInterceptor(logger)
 
