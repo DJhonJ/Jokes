@@ -8,60 +8,102 @@
     android:padding="@dimen/espaciado_10_dp"
     tools:context=".activities.MainActivity">
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/espaciado_30_dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textViewSetup"
-            android:layout_width="match_parent"
+        <RadioButton
+            android:id="@+id/rb_generic"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="- Why can't a bicycle stand on its own?"
-            android:textSize="@dimen/text_size_32sp" />
-
-        <TextView
-            android:id="@+id/textViewPunchLine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="- It's two-tired."
-            android:textSize="@dimen/text_size_32sp" />
-
-        <TextView
-            android:id="@+id/tv_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="type: generic"
+            android:checked="true"
+            android:onClick="onRadioChecked"
+            android:text="@string/radioButton_one"
             android:textSize="@dimen/text_size_16sp" />
 
+        <RadioButton
+            android:id="@+id/rb_programming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioChecked"
+            android:text="@string/radioButton_two"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <RadioButton
+            android:id="@+id/rb_knock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioChecked"
+            android:text="@string/radioButton_three"
+            android:textSize="@dimen/text_size_16sp" />
+    </RadioGroup>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/radio_group">
+
         <LinearLayout
-            android:id="@+id/linear_layout_traduccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/espaciado_20_dp"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:paddingLeft="@dimen/espaciado_20_dp"
+            android:paddingTop="@dimen/espaciado_10_dp"
+            android:paddingRight="@dimen/espaciado_20_dp">
 
             <TextView
-                android:id="@+id/tv_setup_spanish"
+                android:id="@+id/textViewSetup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="- type: generic"
+                android:text="- Why can't a bicycle stand on its own?"
                 android:textSize="@dimen/text_size_32sp" />
 
             <TextView
-                android:id="@+id/tv_punchline_spanish"
+                android:id="@+id/textViewPunchLine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="- type: generic"
+                android:text="- It's two-tired."
                 android:textSize="@dimen/text_size_32sp" />
 
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="type: generic"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_traduccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espaciado_20_dp"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <TextView
+                    android:id="@+id/tv_setup_spanish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="- type: generic"
+                    android:textSize="@dimen/text_size_32sp" />
+
+                <TextView
+                    android:id="@+id/tv_punchline_spanish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="- type: generic"
+                    android:textSize="@dimen/text_size_32sp" />
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,12 +126,13 @@
             android:text="@string/button_traducir_main" />
     </LinearLayout>
 
+
     <ProgressBar
-        android:visibility="invisible"
         android:id="@+id/progressBar"
         style="?android:progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

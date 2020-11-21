@@ -20,6 +20,7 @@ import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
     private var jokeSaveInstance: List<Joke>? = null
+    private var type: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +30,12 @@ class MainActivity : AppCompatActivity() {
 
         if (jokes == null) {
             progressBar.visibility = View.VISIBLE
-            loadJokeRandom()
+            loadJokeRandom(type ?: "general")
         }
 
         buttonBuscar.setOnClickListener {
             progressBar.visibility = View.VISIBLE
-            loadJokeRandom()
+            loadJokeRandom(type ?: "general")
         }
 
         buttonTraducir.setOnClickListener {
@@ -54,6 +55,10 @@ class MainActivity : AppCompatActivity() {
         if (jokeSaveInstance != null) {
             outState.putSerializable("jokeInstance", jokeSaveInstance as Serializable)
         }
+
+        if (type != null) {
+           outState.putString("typeSelected", type)
+        }
     }
 
     //obtenemos el valor
@@ -64,34 +69,41 @@ class MainActivity : AppCompatActivity() {
             jokes?.get(0)?.let {
                 textViewSetup.text = "- ${it.setup}"
                 textViewPunchLine.text = "- ${it.punchline}"
+                tv_type.text = "type: ${it.type}"
 
                 jokeSaveInstance = listOf(it)
             }
         }
+
+        if (savedInstanceState.getString("typeSelected") != null) {
+            this.type = savedInstanceState.getString("typeSelected")
+        }
     }
 
-    private fun loadJokeRandom() {
+    private fun loadJokeRandom(type: String) {
         val jokeService: JokeService = ServiceBuilder.buildService(JokeService::class.java)
-        val requestGet: Call<Joke> = jokeService.getJokeRandom()
+        val requestGet: Call<List<Joke>> = jokeService.getJokeRandomType(type)
 
-        requestGet.enqueue(object: Callback<Joke> {
-            override fun onFailure(call: Call<Joke>, t: Throwable) {
-                Toast.makeText(this@MainActivity, "Problemas en la peticion onFailure", Toast.LENGTH_SHORT).show()
+        requestGet.enqueue(object: Callback<List<Joke>> {
+            override fun onFailure(call: Call<List<Joke>>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Problemas en la peticion onFailure3", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onResponse(call: Call<Joke>, response: Response<Joke>) {
+            override fun onResponse(call: Call<List<Joke>>, response: Response<List<Joke>>) {
                 if (response.isSuccessful) {
                     linear_layout_traduccion.visibility = View.INVISIBLE
 
-                    val joke: Joke? = response.body()
+                    val joke: List<Joke>? = response.body()
                     joke?.let {
                         progressBar.visibility = View.INVISIBLE
 
-                        textViewSetup.text = "- ${it.setup}"
-                        textViewPunchLine.text = "- ${it.punchline}"
-                        tv_type.text = "type: ${it.type}"
+                        if (it.size > 0) {
+                            textViewSetup.text = "- ${it.get(0).setup}"
+                            textViewPunchLine.text = "- ${it.get(0).punchline}"
+                            tv_type.text = "type: ${it.get(0).type}"
 
-                        jokeSaveInstance = listOf(it)
+                            jokeSaveInstance = listOf(it.get(0))
+                        }
                     }
                 }
             }
@@ -100,7 +112,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun traducir(translate: Translate): Joke? {
         val serviceBuilder = ServiceBuilder.changeUrlBase(BuildConfig.API_JOKES_URL, BuildConfig.API_TRANSLATOR_URL)
-        val translatorService: TranslatorService = serviceBuilder.buildService(TranslatorService::class.java, BuildConfig.API_TRANSLATOR_USERNAME, BuildConfig.API_TRANSLATOR_PASSWORD)
+        val translatorService: TranslatorService = serviceBuilder.buildService(TranslatorService::class.java,
+                                        BuildConfig.API_TRANSLATOR_USERNAME, BuildConfig.API_TRANSLATOR_PASSWORD)
         val request: Call<Translations> = translatorService.translator(translate)
         val joke: Joke? = null
 
@@ -132,5 +145,14 @@ class MainActivity : AppCompatActivity() {
         })
 
         return joke
+    }
+
+    fun onRadioChecked(view: View) {
+        this.type = when(view.id) {
+            //R.id.rb_generic -> "generic"
+            R.id.rb_programming -> "programming"
+            R.id.rb_knock -> "knock-knock"
+            else -> "general"
+        }
     }
 }
