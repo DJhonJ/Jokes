@@ -65,11 +65,11 @@ class MainActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         if (savedInstanceState.getSerializable("jokeInstance") != null) {
-            val jokes: List<Joke>? = savedInstanceState.getSerializable("jokeInstance") as List<Joke>
+            val jokes: List<Joke>? = savedInstanceState.getSerializable("jokeInstance") as List<Joke>?
             jokes?.get(0)?.let {
-                textViewSetup.text = "- ${it.setup}"
-                textViewPunchLine.text = "- ${it.punchline}"
-                tv_type.text = "type: ${it.type}"
+                textViewSetup.text = String.format("- %s", it.setup)
+                textViewPunchLine.text = String.format("- %s", it.punchline)
+                tv_type.text = String.format("%s: %s", tv_type.text, it.type)
 
                 jokeSaveInstance = listOf(it)
             }
@@ -98,9 +98,9 @@ class MainActivity : AppCompatActivity() {
                         progressBar.visibility = View.INVISIBLE
 
                         if (it.size > 0) {
-                            textViewSetup.text = "- ${it.get(0).setup}"
-                            textViewPunchLine.text = "- ${it.get(0).punchline}"
-                            tv_type.text = "type: ${it.get(0).type}"
+                            textViewSetup.text = String.format("- %s", it.get(0).setup)
+                            textViewPunchLine.text = String.format("- %s", it.get(0).punchline)
+                            tv_type.text = String.format("%s: %s", tv_type.text, it.get(0).type)
 
                             jokeSaveInstance = listOf(it.get(0))
                         }
@@ -110,12 +110,12 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun traducir(translate: Translate): Joke? {
+    private fun traducir(translate: Translate) {
         val serviceBuilder = ServiceBuilder.changeUrlBase(BuildConfig.API_JOKES_URL, BuildConfig.API_TRANSLATOR_URL)
         val translatorService: TranslatorService = serviceBuilder.buildService(TranslatorService::class.java,
                                         BuildConfig.API_TRANSLATOR_USERNAME, BuildConfig.API_TRANSLATOR_PASSWORD)
         val request: Call<Translations> = translatorService.translator(translate)
-        val joke: Joke? = null
+        //val joke: Joke? = null
 
         request.enqueue(object: Callback<Translations> {
             override fun onFailure(call: Call<Translations>, t: Throwable) {
@@ -126,14 +126,14 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val translation: Translations? = response.body()
                     translation?.let {
-                        var setup = it.translations.get(0).get("translation").toString()
-                        var punch = it.translations.get(1).get("translation").toString()
+                        val setup = it.translations.get(0).get("translation").toString()
+                        val punch = it.translations.get(1).get("translation").toString()
 
                         //joke?.setup = setup
                         //joke?.punchline = punch
 
-                        tv_setup_spanish.text = "-${setup}"
-                        tv_punchline_spanish.text = "-${punch}"
+                        tv_setup_spanish.text = String.format("-%s", setup)
+                        tv_punchline_spanish.text = String.format("-%s", punch)
 
                         linear_layout_traduccion.visibility = View.VISIBLE
                         progressBar.visibility = View.GONE
@@ -143,8 +143,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-
-        return joke
     }
 
     fun onRadioChecked(view: View) {

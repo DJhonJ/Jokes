@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_buscar_main">Search</string>
+    <string name="button_traducir_main">Translate</string>
+    <string name="radioButton_programmation">Programmation</string>
+    <string name="tv_type">Type</string>
+</resources>

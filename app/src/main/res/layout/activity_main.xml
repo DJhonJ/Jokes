@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:onClick="onRadioChecked"
-            android:text="@string/radioButton_one"
+            android:text="@string/radioButton_general"
             android:textSize="@dimen/text_size_16sp" />
 
         <RadioButton
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onRadioChecked"
-            android:text="@string/radioButton_two"
+            android:text="@string/radioButton_programmation"
             android:textSize="@dimen/text_size_16sp" />
 
         <RadioButton
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onRadioChecked"
-            android:text="@string/radioButton_three"
+            android:text="@string/radioButton_knock"
             android:textSize="@dimen/text_size_16sp" />
     </RadioGroup>
 
@@ -75,7 +75,7 @@
                 android:id="@+id/tv_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="type: generic"
+                android:text="@string/tv_type"
                 android:textSize="@dimen/text_size_16sp" />
 
             <LinearLayout
