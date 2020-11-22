@@ -3,6 +3,6 @@
     <string name="button_buscar_main">Buscar</string>
     <string name="button_traducir_main">Traducir</string>
     <string name="radioButton_one">General</string>
-    <string name="radioButton_two">Programming</string>
+    <string name="radioButton_two">Programación</string>
     <string name="radioButton_three">Knock-knock</string>
 </resources>

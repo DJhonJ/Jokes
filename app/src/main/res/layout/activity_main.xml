@@ -115,14 +115,18 @@
             android:id="@+id/buttonBuscar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
             android:text="@string/button_buscar_main" />
 
         <Button
             android:id="@+id/buttonTraducir"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
             android:text="@string/button_traducir_main" />
     </LinearLayout>
 
