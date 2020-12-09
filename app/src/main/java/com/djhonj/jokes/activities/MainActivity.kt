@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             jokes?.get(0)?.let {
                 textViewSetup.text = String.format("- %s", it.setup)
                 textViewPunchLine.text = String.format("- %s", it.punchline)
-                tv_type.text = String.format("%s: %s", tv_type.text, it.type)
+                tv_type.text = String.format("%s: %s", getString(R.string.tv_type), it.type)
 
                 jokeSaveInstance = listOf(it)
             }
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                         if (it.size > 0) {
                             textViewSetup.text = String.format("- %s", it.get(0).setup)
                             textViewPunchLine.text = String.format("- %s", it.get(0).punchline)
-                            tv_type.text = String.format("%s: %s", tv_type.text, it.get(0).type)
+                            tv_type.text = String.format("%s: %s", applicationContext.getString(R.string.tv_type), it.get(0).type)
 
                             jokeSaveInstance = listOf(it.get(0))
                         }
