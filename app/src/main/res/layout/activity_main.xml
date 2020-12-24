@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/espaciado_10_dp"
-    tools:context=".activities.MainActivity">
+    tools:context=".ui.MainActivity">
 
     <RadioGroup
         android:id="@+id/radio_group"

@@ -1,4 +1,4 @@
-package com.djhonj.jokes.activities
+package com.djhonj.jokes.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,9 +6,12 @@ import android.view.View
 import android.widget.Toast
 import com.djhonj.jokes.BuildConfig
 import com.djhonj.jokes.R
+import com.djhonj.jokes.interfaces.IJokePresenter
+import com.djhonj.jokes.interfaces.IJokeView
 import com.djhonj.jokes.models.Joke
 import com.djhonj.jokes.models.Translate
-import com.djhonj.jokes.models.Translations
+import com.djhonj.jokes.models.Translator
+import com.djhonj.jokes.prensenters.JokePresenter
 import com.djhonj.jokes.services.JokeService
 import com.djhonj.jokes.services.ServiceBuilder
 import com.djhonj.jokes.services.TranslatorService
@@ -18,7 +21,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.Serializable
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), IJokeView {
+    private val presenter: IJokePresenter by lazy { JokePresenter(this) }
     private var jokeSaveInstance: List<Joke>? = null
     private var type: String? = null
 
@@ -35,7 +39,9 @@ class MainActivity : AppCompatActivity() {
 
         buttonBuscar.setOnClickListener {
             progressBar.visibility = View.VISIBLE
-            loadJokeRandom(type ?: "general")
+
+            presenter.buscarChiste()
+            //loadJokeRandom(type ?: "general")
         }
 
         buttonTraducir.setOnClickListener {
@@ -80,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //interactor
     private fun loadJokeRandom(type: String) {
         val jokeService: JokeService = ServiceBuilder.buildService(JokeService::class.java)
         val requestGet: Call<List<Joke>> = jokeService.getJokeRandomType(type)
@@ -110,21 +117,22 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    //interactor
     private fun traducir(translate: Translate) {
         val serviceBuilder = ServiceBuilder.changeUrlBase(BuildConfig.API_JOKES_URL, BuildConfig.API_TRANSLATOR_URL)
         val translatorService: TranslatorService = serviceBuilder.buildService(TranslatorService::class.java,
                                         BuildConfig.API_TRANSLATOR_USERNAME, BuildConfig.API_TRANSLATOR_PASSWORD)
-        val request: Call<Translations> = translatorService.translator(translate)
+        val request: Call<Translator> = translatorService.translator(translate)
         //val joke: Joke? = null
 
-        request.enqueue(object: Callback<Translations> {
-            override fun onFailure(call: Call<Translations>, t: Throwable) {
+        request.enqueue(object: Callback<Translator> {
+            override fun onFailure(call: Call<Translator>, t: Throwable) {
                 Toast.makeText(this@MainActivity, "Problemas al traducir", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onResponse(call: Call<Translations>, response: Response<Translations>) {
+            override fun onResponse(call: Call<Translator>, response: Response<Translator>) {
                 if (response.isSuccessful) {
-                    val translation: Translations? = response.body()
+                    val translation: Translator? = response.body()
                     translation?.let {
                         val setup = it.translations.get(0).get("translation").toString()
                         val punch = it.translations.get(1).get("translation").toString()
@@ -145,6 +153,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    //presenter
     fun onRadioChecked(view: View) {
         this.type = when(view.id) {
             //R.id.rb_generic -> "generic"
@@ -152,5 +161,17 @@ class MainActivity : AppCompatActivity() {
             R.id.rb_knock -> "knock-knock"
             else -> "general"
         }
+    }
+
+    override fun mostrarChiste() {
+        TODO("Not yet implemented")
+    }
+
+    override fun mostrarTraduccion() {
+        TODO("Not yet implemented")
+    }
+
+    override fun guardarTipoChiste() {
+        TODO("Not yet implemented")
     }
 }

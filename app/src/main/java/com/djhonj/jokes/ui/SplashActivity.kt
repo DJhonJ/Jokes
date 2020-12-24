@@ -1,4 +1,4 @@
-package com.djhonj.jokes.activities
+package com.djhonj.jokes.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
