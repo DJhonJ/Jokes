@@ -30,17 +30,19 @@ class MainActivity : AppCompatActivity(), IJokeView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        progressBar.visibility = View.INVISIBLE
+
         val jokes = savedInstanceState?.getSerializable("jokeInstance")
 
         if (jokes == null) {
-            progressBar.visibility = View.VISIBLE
-            loadJokeRandom(type ?: "general")
+            //progressBar.visibility = View.VISIBLE
+            //loadJokeRandom(type ?: "general")
         }
 
         buttonBuscar.setOnClickListener {
             progressBar.visibility = View.VISIBLE
 
-            presenter.buscarChiste()
+            presenter.buscarChiste(type ?: "general")
             //loadJokeRandom(type ?: "general")
         }
 
@@ -87,7 +89,7 @@ class MainActivity : AppCompatActivity(), IJokeView {
     }
 
     //interactor
-    private fun loadJokeRandom(type: String) {
+    /*private fun loadJokeRandom(type: String) {
         val jokeService: JokeService = ServiceBuilder.buildService(JokeService::class.java)
         val requestGet: Call<List<Joke>> = jokeService.getJokeRandomType(type)
 
@@ -115,7 +117,7 @@ class MainActivity : AppCompatActivity(), IJokeView {
                 }
             }
         })
-    }
+    }*/
 
     //interactor
     private fun traducir(translate: Translate) {
@@ -163,8 +165,15 @@ class MainActivity : AppCompatActivity(), IJokeView {
         }
     }
 
-    override fun mostrarChiste() {
-        TODO("Not yet implemented")
+    override fun mostrarChiste(responseJoke: Joke) {
+        linear_layout_traduccion.visibility = View.INVISIBLE
+        progressBar.visibility = View.INVISIBLE
+
+        textViewSetup.text = String.format("- %s", responseJoke.setup)
+        textViewPunchLine.text = String.format("- %s", responseJoke.punchline)
+        tv_type.text = String.format("%s: %s", applicationContext.getString(R.string.tv_type), responseJoke.type)
+
+        jokeSaveInstance = listOf(responseJoke)
     }
 
     override fun mostrarTraduccion() {
