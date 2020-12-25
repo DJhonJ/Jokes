@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import retrofit2.Call
 import android.widget.Toast
+import com.djhonj.jokes.BuildConfig
 import com.djhonj.jokes.interfaces.IJokeInteractor
 import com.djhonj.jokes.interfaces.IJokePresenter
 import com.djhonj.jokes.models.Joke
@@ -13,15 +14,16 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class JokeInteractor(presenter: IJokePresenter): IJokeInteractor {
-    private val _presenter: IJokePresenter by lazy { presenter }
+    private val presenter: IJokePresenter by lazy { presenter }
 
     override fun buscar(type: String) {
-        val jokeService: JokeService = ServiceBuilder.buildService(JokeService::class.java)
+        val jokeService: JokeService = ServiceBuilder.buildService(BuildConfig.API_JOKES_URL, JokeService::class.java)
         val requestGet: Call<List<Joke>> = jokeService.getJokeRandomType(type)
 
         requestGet.enqueue(object: Callback<List<Joke>> {
             override fun onFailure(call: Call<List<Joke>>, t: Throwable) {
                 Log.i("JokeInteractor", "error al buscar")
+                presenter.showError("problemas buscando")
             }
 
             override fun onResponse(call: Call<List<Joke>>, response: Response<List<Joke>>) {
@@ -29,7 +31,7 @@ class JokeInteractor(presenter: IJokePresenter): IJokeInteractor {
                     val joke: List<Joke>? = response.body()
 
                     joke?.let {
-                        if (it.size > 0) _presenter.getChiste(it.get(0))
+                        if (it.size > 0) presenter.getChiste(it.get(0))
                     }
                 }
             }
