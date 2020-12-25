@@ -31,20 +31,16 @@ class MainActivity : AppCompatActivity(), IJokeView {
         setContentView(R.layout.activity_main)
 
         progressBar.visibility = View.INVISIBLE
-
         val jokes = savedInstanceState?.getSerializable("jokeInstance")
 
         if (jokes == null) {
-            //progressBar.visibility = View.VISIBLE
-            //loadJokeRandom(type ?: "general")
+            progressBar.visibility = View.VISIBLE
             presenter.buscarChiste(type ?: "general")
         }
 
         buttonBuscar.setOnClickListener {
             progressBar.visibility = View.VISIBLE
-
             presenter.buscarChiste(type ?: "general")
-            //loadJokeRandom(type ?: "general")
         }
 
         buttonTraducir.setOnClickListener {
@@ -57,38 +53,8 @@ class MainActivity : AppCompatActivity(), IJokeView {
         }
     }
 
-    //guardamos el valor en la saveinstance
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+    private fun traducir(translate: Translate) = presenter.traducirTexto(translate)
 
-        if (jokeSaveInstance != null) {
-            outState.putSerializable("jokeInstance", jokeSaveInstance as Serializable)
-        }
-
-        if (type != null) outState.putString("typeSelected", type)
-    }
-
-    //obtenemos el valor de la savedinsatance
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        if (savedInstanceState.getSerializable("jokeInstance") != null) {
-            val jokes: List<Joke>? = savedInstanceState.getSerializable("jokeInstance") as List<Joke>?
-            jokes?.get(0)?.let {
-                showChiste(it)
-            }
-        }
-
-        if (savedInstanceState.getString("typeSelected") != null) {
-            this.type = savedInstanceState.getString("typeSelected")
-        }
-    }
-
-    //interactor
-    private fun traducir(translate: Translate) {
-        presenter.traducirTexto(translate)
-    }
-
-    //presenter
     fun onRadioChecked(view: View) {
         this.type = presenter.getTipoChiste(view.id)
     }
@@ -112,7 +78,29 @@ class MainActivity : AppCompatActivity(), IJokeView {
         progressBar.visibility = View.GONE
     }
 
-    override fun showError(mensaje: String) {
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
+    override fun showError(mensaje: String) = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        if (jokeSaveInstance != null) {
+            outState.putSerializable("jokeInstance", jokeSaveInstance as Serializable)
+        }
+
+        if (type != null) outState.putString("typeSelected", type)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        if (savedInstanceState.getSerializable("jokeInstance") != null) {
+            val jokes: List<Joke>? = savedInstanceState.getSerializable("jokeInstance") as List<Joke>?
+            jokes?.get(0)?.let {
+                showChiste(it)
+            }
+        }
+
+        if (savedInstanceState.getString("typeSelected") != null) {
+            this.type = savedInstanceState.getString("typeSelected")
+        }
     }
 }

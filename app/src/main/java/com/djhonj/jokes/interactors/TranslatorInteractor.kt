@@ -8,7 +8,6 @@ import com.djhonj.jokes.models.Translate
 import com.djhonj.jokes.models.Translator
 import com.djhonj.jokes.services.ServiceBuilder
 import com.djhonj.jokes.services.TranslatorService
-import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,13 +32,7 @@ class TranslatorInteractor(presenter: IJokePresenter): ITraslatorInteractor {
                         val setup = it.translations.get(0).get("translation").toString()
                         val punch = it.translations.get(1).get("translation").toString()
 
-                        presenter.getTraduccion(Joke(type="Vacio", setup=setup, punchline=punch))
-
-                        /*tv_setup_spanish.text = String.format("-%s", setup)
-                        tv_punchline_spanish.text = String.format("-%s", punch)
-
-                        linear_layout_traduccion.visibility = View.VISIBLE
-                        progressBar.visibility = View.GONE*/
+                        presenter.getTraduccion(Joke(setup=setup, punchline=punch))
                     }
                 } else {
                     presenter.showError("Problemas al traducir")
