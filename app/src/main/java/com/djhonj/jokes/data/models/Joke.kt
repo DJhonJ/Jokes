@@ -1,4 +1,4 @@
-package com.djhonj.jokes.models
+package com.djhonj.jokes.data.models
 
 import java.io.Serializable
 

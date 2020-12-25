@@ -1,9 +1,9 @@
-package com.djhonj.jokes.services
+package com.djhonj.jokes.data.api
 
-import com.djhonj.jokes.models.Translate
+import com.djhonj.jokes.data.models.Translate
 import retrofit2.Call
 //import com.djhonj.jokes.models.Translation
-import com.djhonj.jokes.models.Translator
+import com.djhonj.jokes.data.models.Translator
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST

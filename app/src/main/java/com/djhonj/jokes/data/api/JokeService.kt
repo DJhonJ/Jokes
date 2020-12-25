@@ -1,7 +1,7 @@
-package com.djhonj.jokes.services
+package com.djhonj.jokes.data.api
 
 import retrofit2.http.GET
-import com.djhonj.jokes.models.Joke
+import com.djhonj.jokes.data.models.Joke
 import retrofit2.Call
 import retrofit2.http.Path
 

@@ -1,6 +1,5 @@
 package com.djhonj.jokes.prensenters
 
-import android.os.Bundle
 import com.djhonj.jokes.R
 import com.djhonj.jokes.interactors.JokeInteractor
 import com.djhonj.jokes.interactors.TranslatorInteractor
@@ -8,8 +7,8 @@ import com.djhonj.jokes.interfaces.IJokeInteractor
 import com.djhonj.jokes.interfaces.IJokePresenter
 import com.djhonj.jokes.interfaces.IJokeView
 import com.djhonj.jokes.interfaces.ITraslatorInteractor
-import com.djhonj.jokes.models.Joke
-import com.djhonj.jokes.models.Translate
+import com.djhonj.jokes.data.models.Joke
+import com.djhonj.jokes.data.models.Translate
 
 class JokePresenter(view: IJokeView): IJokePresenter {
     private val view: IJokeView by lazy { view }

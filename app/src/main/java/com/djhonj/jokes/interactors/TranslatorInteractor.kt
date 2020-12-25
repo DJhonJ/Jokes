@@ -2,17 +2,18 @@ package com.djhonj.jokes.interactors
 
 import com.djhonj.jokes.BuildConfig
 import com.djhonj.jokes.interfaces.IJokePresenter
+import com.djhonj.jokes.data.models.Joke
+import com.djhonj.jokes.data.models.Translate
+import com.djhonj.jokes.data.models.Translator
+import com.djhonj.jokes.data.api.ServiceBuilder
+import com.djhonj.jokes.data.api.TranslatorService
 import com.djhonj.jokes.interfaces.ITraslatorInteractor
-import com.djhonj.jokes.models.Joke
-import com.djhonj.jokes.models.Translate
-import com.djhonj.jokes.models.Translator
-import com.djhonj.jokes.services.ServiceBuilder
-import com.djhonj.jokes.services.TranslatorService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TranslatorInteractor(presenter: IJokePresenter): ITraslatorInteractor {
+class TranslatorInteractor(presenter: IJokePresenter):
+    ITraslatorInteractor {
     private val presenter: IJokePresenter by lazy { presenter }
 
     override fun traducir(translate: Translate) {
@@ -32,7 +33,12 @@ class TranslatorInteractor(presenter: IJokePresenter): ITraslatorInteractor {
                         val setup = it.translations.get(0).get("translation").toString()
                         val punch = it.translations.get(1).get("translation").toString()
 
-                        presenter.getTraduccion(Joke(setup=setup, punchline=punch))
+                        presenter.getTraduccion(
+                            Joke(
+                                setup = setup,
+                                punchline = punch
+                            )
+                        )
                     }
                 } else {
                     presenter.showError("Problemas al traducir")

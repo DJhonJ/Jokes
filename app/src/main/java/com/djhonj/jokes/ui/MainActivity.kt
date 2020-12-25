@@ -4,21 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.djhonj.jokes.BuildConfig
 import com.djhonj.jokes.R
 import com.djhonj.jokes.interfaces.IJokePresenter
 import com.djhonj.jokes.interfaces.IJokeView
-import com.djhonj.jokes.models.Joke
-import com.djhonj.jokes.models.Translate
-import com.djhonj.jokes.models.Translator
+import com.djhonj.jokes.data.models.Joke
+import com.djhonj.jokes.data.models.Translate
 import com.djhonj.jokes.prensenters.JokePresenter
-import com.djhonj.jokes.services.JokeService
-import com.djhonj.jokes.services.ServiceBuilder
-import com.djhonj.jokes.services.TranslatorService
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity(), IJokeView {
@@ -49,7 +41,14 @@ class MainActivity : AppCompatActivity(), IJokeView {
 
             progressBar.visibility = View.VISIBLE
 
-            traducir(Translate(listOf(setup,  punchline), "en-es"))
+            traducir(
+                Translate(
+                    listOf(
+                        setup,
+                        punchline
+                    ), "en-es"
+                )
+            )
         }
     }
 

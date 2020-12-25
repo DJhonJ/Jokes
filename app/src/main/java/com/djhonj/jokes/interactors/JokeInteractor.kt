@@ -1,15 +1,13 @@
 package com.djhonj.jokes.interactors
 
 import android.util.Log
-import android.view.View
 import retrofit2.Call
-import android.widget.Toast
 import com.djhonj.jokes.BuildConfig
 import com.djhonj.jokes.interfaces.IJokeInteractor
 import com.djhonj.jokes.interfaces.IJokePresenter
-import com.djhonj.jokes.models.Joke
-import com.djhonj.jokes.services.JokeService
-import com.djhonj.jokes.services.ServiceBuilder
+import com.djhonj.jokes.data.models.Joke
+import com.djhonj.jokes.data.api.JokeService
+import com.djhonj.jokes.data.api.ServiceBuilder
 import retrofit2.Callback
 import retrofit2.Response
 

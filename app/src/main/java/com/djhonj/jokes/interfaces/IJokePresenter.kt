@@ -1,8 +1,7 @@
 package com.djhonj.jokes.interfaces
 
-import android.os.Bundle
-import com.djhonj.jokes.models.Joke
-import com.djhonj.jokes.models.Translate
+import com.djhonj.jokes.data.models.Joke
+import com.djhonj.jokes.data.models.Translate
 
 interface IJokePresenter {
     fun buscarChiste(type: String)

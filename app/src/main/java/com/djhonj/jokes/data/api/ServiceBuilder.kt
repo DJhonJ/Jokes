@@ -1,7 +1,6 @@
-package com.djhonj.jokes.services
+package com.djhonj.jokes.data.api
 
 import android.text.TextUtils
-import com.djhonj.jokes.interceptors.BasicAuthenticationInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,7 +30,11 @@ object ServiceBuilder {
 
     fun <T> buildService(baseUrl: String, serviceType: Class<T>, username: String, password: String): T {
         if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
-            retrofit = createBuilder(baseUrl, interceptor = BasicAuthenticationInterceptor(username, password)).build()
+            retrofit = createBuilder(baseUrl, interceptor = BasicAuthenticationInterceptor(
+                username,
+                password
+            )
+            ).build()
         } else {
           throw Exception("username or password null")
         }

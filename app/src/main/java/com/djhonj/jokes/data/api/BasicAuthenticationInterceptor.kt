@@ -1,4 +1,4 @@
-package com.djhonj.jokes.interceptors
+package com.djhonj.jokes.data.api
 
 import okhttp3.Credentials
 import okhttp3.Interceptor

@@ -21,16 +21,16 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            buildConfigField("String", "API_TRANSLATOR_USERNAME", "\"USERNAME\"")
-            buildConfigField("String", "API_TRANSLATOR_PASSWORD", "\"PASSWORD\"")
+            buildConfigField("String", "API_TRANSLATOR_USERNAME", "\"apikey\"")
+            buildConfigField("String", "API_TRANSLATOR_PASSWORD", "\"5YnKyNcwgFt2XONZThuzo-E9JYz_mgGH0hKrT1JbbRUx\"")
             buildConfigField("String", "API_JOKES_URL", "\"https://us-central1-dadsofunny.cloudfunctions.net/DadJokes/\"")
-            buildConfigField("String", "API_TRANSLATOR_URL", "\"URL\"")
+            buildConfigField("String", "API_TRANSLATOR_URL", "\"https://api.us-south.language-translator.watson.cloud.ibm.com/instances/41c45f3c-1abc-4cf0-a6a2-ddcfed07b351/\"")
         }
         debug {
-            buildConfigField("String", "API_TRANSLATOR_USERNAME", "\"USERNAME\"")
-            buildConfigField("String", "API_TRANSLATOR_PASSWORD", "\"PASSWORD\"")
+            buildConfigField("String", "API_TRANSLATOR_USERNAME", "\"apikey\"")
+            buildConfigField("String", "API_TRANSLATOR_PASSWORD", "\"5YnKyNcwgFt2XONZThuzo-E9JYz_mgGH0hKrT1JbbRUx\"")
             buildConfigField("String", "API_JOKES_URL", "\"https://us-central1-dadsofunny.cloudfunctions.net/DadJokes/\"")
-            buildConfigField("String", "API_TRANSLATOR_URL", "\"URL\"")
+            buildConfigField("String", "API_TRANSLATOR_URL", "\"https://api.us-south.language-translator.watson.cloud.ibm.com/instances/41c45f3c-1abc-4cf0-a6a2-ddcfed07b351/\"")
         }
     }
 
